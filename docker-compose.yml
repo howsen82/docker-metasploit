@@ -3,7 +3,6 @@ version: '3.9'
 services:
   ms:
     image: metasploitframework/metasploit-framework:latest
-    container_name: metasploit
     environment:
       DATABASE_URL: postgres://postgres@db:5432/msf?pool=200&timeout=5
     links:
@@ -15,12 +14,13 @@ services:
 
   db:
     image: postgres:10-alpine
-    container_name: postgres
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - pg_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
 
 volumes:
   pg_data:
     driver: local
+
+# docker compose run --rm --service-ports -e MSF_UID=$(id -u) -e MSF_GID=$(id -g) ms
